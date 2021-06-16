@@ -22,12 +22,12 @@ class Login : AppCompatActivity() {
         setContentView(R.layout.login)
 
         //FirebaseAuth를 초기화
-        firebaseAuth = Firebase.auth
+        firebaseAuth = FirebaseAuth.getInstance()
 
         //OAuthProvider 인스턴스 생성
         val provider = OAuthProvider.newBuilder("github.com")
         //OAuth 요청과 함께 전송하고자 하는 커스텀 OAuth 매개변수 추가 지정
-        provider.addCustomParameter("login", "your-email@gmail.com");
+        //provider.addCustomParameter("login", "your-email@gmail.com");
         //인증 제공업체가 요청하고자 하는 기본 프로필 범위를 넘는 OAuth 2.0 범위 추가 지
         val scopes: ArrayList<String?> = object : ArrayList<String?>() {
             init {
@@ -44,7 +44,7 @@ class Login : AppCompatActivity() {
                         Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
                     }
                     .addOnFailureListener{
-                        Toast.makeText(this, "실패", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "실패" + it, Toast.LENGTH_SHORT).show()
                     }
         }
     }
