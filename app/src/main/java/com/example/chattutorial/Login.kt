@@ -1,5 +1,6 @@
 package com.example.chattutorial
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.Toast
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.OAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -40,11 +42,20 @@ class Login : AppCompatActivity() {
         val LoginButton = findViewById<Button>(R.id.LoginButton)
         LoginButton.setOnClickListener{
             firebaseAuth.startActivityForSignInWithProvider(this, provider.build())
+                    //로그인 버튼 클릭 성공적
                     .addOnSuccessListener {
-                        Toast.makeText(this, "성공", Toast.LENGTH_SHORT).show()
+                        //Chat으로 이동하는 intent 생성
+                        val intent: Intent = Intent(this, Chat::class.java)
+                        //현재 로그인한 사용자의 uid 반환
+                        val uid: String? = FirebaseAuth.getInstance().uid
+                        //intent에 uid를 전달
+                        intent.putExtra("uid", uid)
+                        //intent로 Chat Activity를 실행
+                        startActivity(intent)
                     }
+                    //로그인 버튼 클릭 실패
                     .addOnFailureListener{
-                        Toast.makeText(this, "실패" + it, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show()
                     }
         }
     }
