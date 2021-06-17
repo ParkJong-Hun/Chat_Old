@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <!--내 한 메세지-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/myMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--나의 메시지 내용-->
+        <TextView
+            android:id="@+id/myText"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="@color/purple_500"
+            android:maxHeight="300dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:text="null"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--나의 이름-->
+        <TextView
+            android:id="@+id/myUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:text="userName"
+            android:textSize="12dp"
+            app:layout_constraintEnd_toStartOf="@+id/myText"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--내 메시지 작성 날짜-->
+        <TextView
+            android:id="@+id/myMessageDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021/01/01 00:00"
+            android:textSize="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/myUserName"
+            app:layout_constraintEnd_toStartOf="@+id/myText"
+            tools:layout_editor_absoluteY="16dp"
+            android:padding="3dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--다른 사람 한 메세지-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/whoMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!--다른 사람의 메시지 내용-->
+        <TextView
+            android:id="@+id/whoText"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="@color/purple_200"
+            android:maxHeight="300dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="20dp"
+            android:text="null"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--다른 사람의 이름-->
+        <TextView
+            android:id="@+id/whoUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:padding="3dp"
+            android:text="userName"
+            android:textSize="12dp"
+            app:layout_constraintStart_toEndOf="@+id/whoText"
+            app:layout_constraintTop_toTopOf="parent" />
+        <!--내 메시지 작성 날짜-->
+        <TextView
+            android:id="@+id/whoMessageDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2021/01/01 00:00"
+            android:textSize="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/whoUserName"
+            app:layout_constraintStart_toEndOf="@+id/whoText"
+            tools:layout_editor_absoluteY="16dp"
+            android:padding="3dp"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
