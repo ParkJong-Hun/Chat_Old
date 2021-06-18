@@ -6,6 +6,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -13,6 +16,9 @@ import java.util.*
 class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemViewHolder>() {
     // adapter에 사용될 데이터
     private val listData: ArrayList<Data> = ArrayList<Data>()
+
+    //현재 User 이름
+    val currentUserEmail = FirebaseAuth.getInstance().currentUser?.displayName.toString()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         // LayoutInflater를 이용하여 전 단계에서 만들었던 item.xml을 inflate 시킵니다.
@@ -56,7 +62,7 @@ class MessageAdapter : RecyclerView.Adapter<MessageAdapter.ItemViewHolder>() {
         //뷰의 값 변경
         fun onBind(data: Data) {
             //내가 쓴 글이라면?
-            if(data.userName.equals("John doe")) {
+            if(data.userName.equals(currentUserEmail)) {
                 //내용
                 myText.setText(data.text)
                 myText.visibility = View.VISIBLE

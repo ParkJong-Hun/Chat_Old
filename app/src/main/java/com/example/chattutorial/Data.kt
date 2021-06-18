@@ -1,9 +1,10 @@
 package com.example.chattutorial
 
 import java.text.DateFormat
+import java.util.*
 
 class Data {
     var text: String? = null
     var userName: String? = null
-    var messageDate = 202101010001
+    var messageDate: Date? = null
 }
