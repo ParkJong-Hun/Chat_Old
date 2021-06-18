@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
     <!--내 한 메세지-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:background="@color/purple_500"
+            android:background="@color/black_500"
             android:maxHeight="300dp"
             android:paddingLeft="5dp"
             android:paddingRight="20dp"
@@ -61,7 +61,7 @@
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_margin="10dp"
-            android:background="@color/purple_200"
+            android:background="@color/black_200"
             android:maxHeight="300dp"
             android:paddingLeft="5dp"
             android:paddingRight="20dp"
