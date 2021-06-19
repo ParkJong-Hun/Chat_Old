@@ -1,20 +1,23 @@
 package com.example.chattutorial
 
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
+import android.widget.Toolbar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.Timestamp
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.FirebaseFirestoreException
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -27,18 +30,20 @@ class Chat : AppCompatActivity() {
     val currentUserName = FirebaseAuth.getInstance().currentUser?.displayName.toString()
     //로그인 한 사용자 UID
     val currentUserUID = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
+    //리사이클러 뷰
     lateinit var recyclerView:RecyclerView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(com.example.chattutorial.R.layout.chat)
-
+        setContentView(R.layout.chat)
+        //액션바에 뒤로가기(로그아웃) 버튼 표시
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        
         init()
         UpdateData()
 
 
-        val button: Button = findViewById(com.example.chattutorial.R.id.submitButton)
+        val button: Button = findViewById(R.id.submitButton)
         button.setOnClickListener{
             SubmitText()
         }
@@ -46,8 +51,8 @@ class Chat : AppCompatActivity() {
 
     //리사이클러뷰 어댑터 연결
     private fun init() {
-        recyclerView = findViewById(com.example.chattutorial.R.id.recyclerView)
-        var linearLayoutManager:LinearLayoutManager = LinearLayoutManager(this)
+        recyclerView = findViewById(R.id.recyclerView)
+        var linearLayoutManager = LinearLayoutManager(this)
         recyclerView.setLayoutManager(linearLayoutManager)
 
         adapter = MessageAdapter()
@@ -57,7 +62,7 @@ class Chat : AppCompatActivity() {
 
     //내용 전송
     private fun SubmitText() {
-        var editText:EditText = findViewById(com.example.chattutorial.R.id.inputText)
+        var editText:EditText = findViewById(R.id.inputText)
         //Firestore에 보낼 Data
         if(editText.text.isNotEmpty() || editText.text.isNotBlank()) {
             val data = hashMapOf(
@@ -77,26 +82,6 @@ class Chat : AppCompatActivity() {
             recyclerView.scrollToPosition(adapter!!.getItemCount())
         }
     }
-    //채팅 초기 설정
-    /*fun InitData() {
-        FirebaseFirestore.getInstance().collection("Chat")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    val data:Data = Data()
-                    data.text = document["text"].toString()
-                    data.userName = document["userName"].toString()
-                    val stamp: Timestamp = document["messageDate"] as Timestamp
-                    data.messageDate = stamp.toDate()
-                    data.uid = document["uid"].toString()
-                    adapter?.addItem(data)
-                    adapter?.notifyDataSetChanged()
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d("TAG", "가져오기를 실패했습니다.", exception)
-            }
-    }*/
     //채팅 업데이트
     fun UpdateData() {
         //Snapshot(Coolection의 전체 문서)이 업데이트 될 때 마다 확인하는 리스너
@@ -120,5 +105,28 @@ class Chat : AppCompatActivity() {
             adapter?.notifyDataSetChanged()
         }
     }
-
+    //하단 뒤로가기 버튼
+    override fun onBackPressed() {
+        logoutDialog()
+    }
+    //상단 뒤로가기 버튼(홈 이동 버튼)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                logoutDialog()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+    //로그아웃 대화상자
+    fun logoutDialog() {
+        val builder:AlertDialog.Builder = AlertDialog.Builder(this)
+        builder.setTitle("로그아웃").setMessage(currentUserName + "님 로그아웃을 하시겠습니까?").setPositiveButton("확인", { dialogInterface: DialogInterface, i: Int ->
+            Firebase.auth.signOut()
+            val intent: Intent = Intent(this, Login::class.java)
+            startActivity(intent)
+        }).setNegativeButton("취소", { dialogInterface: DialogInterface, i: Int ->
+        }).show()
+    }
 }

@@ -38,25 +38,35 @@ class Login : AppCompatActivity() {
         }
         provider.scopes = scopes
 
-
+        //깃헙 계정으로 로그인 버튼
         val LoginButton = findViewById<Button>(R.id.LoginButton)
         LoginButton.setOnClickListener{
             firebaseAuth.startActivityForSignInWithProvider(this, provider.build())
                     //로그인 버튼 클릭 성공적
                     .addOnSuccessListener {
-                        //Chat으로 이동하는 intent 생성
-                        val intent: Intent = Intent(this, Chat::class.java)
-                        //현재 로그인한 사용자의 uid 반환
-                        val uid: String? = FirebaseAuth.getInstance().uid
-                        //intent에 uid를 전달
-                        intent.putExtra("uid", uid)
-                        //intent로 Chat Activity를 실행
-                        startActivity(intent)
+                        moveActivity()
                     }
                     //로그인 버튼 클릭 실패
                     .addOnFailureListener{
-                        Toast.makeText(this, "인터넷 연결을 확인해주세요.", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "연결이 실패하였습니다.", Toast.LENGTH_SHORT).show()
                     }
         }
+        //해당 기기에서 1번이라도 로그인한 적 있을 때 자동 로그인 되게 하기
+        firebaseAuth.currentUser?.startActivityForLinkWithProvider(this, provider.build())
+                ?.addOnSuccessListener {
+                    moveActivity()
+                }
     }
+
+    fun moveActivity() {
+        //Chat으로 이동하는 intent 생성
+        val intent: Intent = Intent(this, Chat::class.java)
+        //현재 로그인한 사용자의 uid 반환
+        val uid: String? = FirebaseAuth.getInstance().uid
+        //intent에 uid를 전달
+        intent.putExtra("uid", uid)
+        //intent로 Chat Activity를 실행
+        startActivity(intent)
+    }
+
 }
