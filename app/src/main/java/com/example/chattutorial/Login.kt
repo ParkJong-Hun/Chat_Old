@@ -68,5 +68,8 @@ class Login : AppCompatActivity() {
         //intent로 Chat Activity를 실행
         startActivity(intent)
     }
+    //뒤로가기 눌러도 반응 X
+    override fun onBackPressed() {
+    }
 
 }

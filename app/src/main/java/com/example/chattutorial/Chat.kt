@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -123,7 +124,7 @@ class Chat : AppCompatActivity() {
     fun logoutDialog() {
         val builder:AlertDialog.Builder = AlertDialog.Builder(this)
         builder.setTitle("로그아웃").setMessage(currentUserName + "님 로그아웃을 하시겠습니까?").setPositiveButton("확인", { dialogInterface: DialogInterface, i: Int ->
-            Firebase.auth.signOut()
+            FirebaseAuth.getInstance().signOut()
             val intent: Intent = Intent(this, Login::class.java)
             startActivity(intent)
         }).setNegativeButton("취소", { dialogInterface: DialogInterface, i: Int ->
